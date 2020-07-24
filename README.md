@@ -1,17 +1,25 @@
-# Build
+# Build on Docker
 `DOCKER_BUILDKIT=1 docker build -t dropbox-to-s3 .`
+
+# Build on Mac/Linux (target Linux)
+`CGO_ENABLED=0 GOARCH=amd64 GOOS=linux go build -mod vendor -ldflags "-s -w" -o dropbox-to-s3`
 
 # Run
 `docker run -it --rm dropbox-to-s3`
 ```console
 Usage of /dropbox-to-s3:
-  -bucket string
-    	S3 bucket
-  -directory string
-    	dropbox directory
-  -token string
+  -output-bucket string
+    	S3 bucket (if you want to upload to S3)
+  -input-directory string
+        Dropbox directory to upload
+  -output-directory string
+    	local output directory (if you want to upload to local file system)
+  -disable-progressbar string
+        disable progress bar
+  -dropbox-token string
     	dropbox access token
 ```
+You can pass either `-output-bucket` or `-output-directory` or none in which case the program will only print files to upload (can be used to generate a list).
 
 # Generate Dropbox access token
 ## Create an app
